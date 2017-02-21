@@ -31,7 +31,7 @@
  *  属性初始化构造
  */
 -(void)construction {
-    self.windowLevel = UIWindowLevelAlert+1;
+    [self bringToFront];
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self makeKeyAndVisible];
     UIApplication *app = [UIApplication sharedApplication];
@@ -40,6 +40,13 @@
     }
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
     [self addGestureRecognizer:pan];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bringToFront) name:UIKeyboardWillShowNotification object:nil];
+}
+
+-(void)bringToFront {
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    UIWindow *lastWindow = (UIWindow *)[windows lastObject];
+    self.windowLevel = lastWindow.windowLevel + 1;
 }
 /**
  *  窗体拖动事件
@@ -84,6 +91,7 @@ static PanWindow *cvcsWin;//CVCS Window
  *  load类方法，延迟创建打印按钮
  */
 + (void)load {
+    [super load];
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self performSelector:@selector(testButInWindow) withObject:nil afterDelay:0.2];
