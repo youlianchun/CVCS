@@ -7,86 +7,13 @@
 //
 
 #import "CVCS.h"
+#import "FrontWindow.h"
 
 #if DEBUG && CVCS_DEBUG_TAG
-
-#pragma mark - PanWindow
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-
-@interface PanWindow : UIWindow
-@end
-
-@implementation PanWindow:UIWindow
--(instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self construction];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide) name:UIKeyboardDidHideNotification object:nil];
-    }
-    return self;
-}
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-}
-/**
- *  属性初始化构造
- */
--(void)construction {
-//    [self keyboardShow];
-    self.windowLevel = UIWindowLevelAlert + 1;
-    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-    [self makeKeyAndVisible];
-    UIApplication *app = [UIApplication sharedApplication];
-    if (app.delegate && app.delegate.window) {
-        [app.delegate.window makeKeyAndVisible];
-    }
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
-    [self addGestureRecognizer:pan];
-}
-
--(void)keyboardShow {
-    NSArray *windows = [[UIApplication sharedApplication] windows];
-    UIWindow *lastWindow = (UIWindow *)[windows lastObject];
-    self.windowLevel = lastWindow.windowLevel + 1;
-}
-
--(void)keyboardHide {
-    self.windowLevel = self.windowLevel - 1;
-}
-/**
- *  窗体拖动事件
- *
- *  @param sender <#sender description#>
- */
--(void)panAction:(UIPanGestureRecognizer*)sender {
-    UIView *view = [UIApplication sharedApplication].delegate.window;
-    CGPoint point = [sender translationInView:view];
-    CGPoint center = CGPointMake(sender.view.center.x + point.x, sender.view.center.y + point.y);
-    CGFloat w_2 = self.bounds.size.width/2;
-    CGFloat H_2 = self.bounds.size.height/2;
-    CGFloat r = view.bounds.size.width-w_2;
-    CGFloat b = view.bounds.size.height-H_2;
-    if (center.x < w_2) {
-        center.x = w_2;
-    }
-    if (center.y < H_2) {
-        center.y = H_2;
-    }
-    if (center.x > r) {
-        center.x = r;
-    }
-    if (center.y > b) {
-        center.y = b;
-    }
-    sender.view.center = center;
-    [sender setTranslation:CGPointMake(0, 0) inView:view];
-}
-@end
 
 #pragma mark - CVCS
 @interface CVCS : NSObject
@@ -95,7 +22,7 @@
 @end
 
 static NSMutableArray<CVCS*>*CVCSArray;// CVCS 控制对象器持用数组
-static PanWindow *cvcsWin;//CVCS Window
+
 @implementation CVCS
 /**
  *  load类方法，延迟创建打印按钮
@@ -155,10 +82,10 @@ static PanWindow *cvcsWin;//CVCS Window
  *  创建打印按钮
  */
 +(void)testButInWindow {
-    cvcsWin = [[PanWindow alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2-20, 10, 40, 40)];
-    UIButton *but = [[UIButton alloc]initWithFrame:cvcsWin.bounds];
+    FrontWindow *fWin = [[FrontWindow alloc] init];
+    UIButton *but = [[UIButton alloc]initWithFrame:fWin.bounds];
     but.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
-    but.layer.cornerRadius = 20;
+    but.layer.cornerRadius = fWin.bounds.size.width/2;
     but.layer.masksToBounds = true;
     but.layer.borderWidth = 2;
     but.layer.borderColor = [UIColor colorWithRed:0 green:1 blue:1 alpha:0.5].CGColor;
@@ -166,7 +93,11 @@ static PanWindow *cvcsWin;//CVCS Window
     but.titleLabel.font = [UIFont systemFontOfSize:13];
     [but setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [but addTarget:self action:@selector(testButInAction) forControlEvents:UIControlEventTouchUpInside];
-    [cvcsWin addSubview:but];
+    [fWin addSubview:but];
+    dispatch_async(dispatch_queue_create("", NULL), ^{
+        [NSThread sleepForTimeInterval:3];
+        [fWin removeFromApplication];
+    });
 }
 
 /**

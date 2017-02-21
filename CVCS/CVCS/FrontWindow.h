@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FrontWindow : UIWindow
+@interface FrontWindow : NSObject
 
+@property (nonatomic, readonly) CGFloat sideLength;
+
+@property (nonatomic, readonly) CGRect bounds;
+
+-(void)addSubview:(UIView*)view;
+-(void)removeFromApplication;
 @end
