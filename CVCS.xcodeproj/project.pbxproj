@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9418EC81E5C1F3300D325C0 /* FrontWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A9418EC71E5C1F3300D325C0 /* FrontWindow.m */; };
 		A970AEFE1DC05E6D00366C44 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A970AEFD1DC05E6D00366C44 /* main.m */; };
 		A970AF011DC05E6D00366C44 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A970AF001DC05E6D00366C44 /* AppDelegate.m */; };
 		A970AF041DC05E6D00366C44 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A970AF031DC05E6D00366C44 /* ViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A9418EC61E5C1F3300D325C0 /* FrontWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontWindow.h; sourceTree = "<group>"; };
+		A9418EC71E5C1F3300D325C0 /* FrontWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontWindow.m; sourceTree = "<group>"; };
 		A970AEF91DC05E6D00366C44 /* CVCS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVCS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A970AEFD1DC05E6D00366C44 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A970AEFF1DC05E6D00366C44 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 		A970AF2F1DC05E7B00366C44 /* CVCS */ = {
 			isa = PBXGroup;
 			children = (
+				A9418EC61E5C1F3300D325C0 /* FrontWindow.h */,
+				A9418EC71E5C1F3300D325C0 /* FrontWindow.m */,
 				A970AF301DC05E7B00366C44 /* CVCS.h */,
 				A970AF311DC05E7B00366C44 /* CVCS.m */,
 			);
@@ -288,6 +293,7 @@
 			files = (
 				A970AF321DC05E7B00366C44 /* CVCS.m in Sources */,
 				A970AF041DC05E6D00366C44 /* ViewController.m in Sources */,
+				A9418EC81E5C1F3300D325C0 /* FrontWindow.m in Sources */,
 				A970AF011DC05E6D00366C44 /* AppDelegate.m in Sources */,
 				A970AEFE1DC05E6D00366C44 /* main.m in Sources */,
 			);
@@ -521,6 +527,7 @@
 				A970AF281DC05E6E00366C44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A970AF291DC05E6E00366C44 /* Build configuration list for PBXNativeTarget "CVCSTests" */ = {
 			isa = XCConfigurationList;
@@ -529,6 +536,7 @@
 				A970AF2B1DC05E6E00366C44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A970AF2C1DC05E6E00366C44 /* Build configuration list for PBXNativeTarget "CVCSUITests" */ = {
 			isa = XCConfigurationList;
@@ -537,6 +545,7 @@
 				A970AF2E1DC05E6E00366C44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

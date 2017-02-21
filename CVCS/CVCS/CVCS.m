@@ -24,17 +24,21 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self construction];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
 }
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 /**
  *  属性初始化构造
  */
 -(void)construction {
-    [self bringToFront];
+//    [self keyboardShow];
+    self.windowLevel = UIWindowLevelAlert + 1;
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self makeKeyAndVisible];
     UIApplication *app = [UIApplication sharedApplication];
@@ -43,13 +47,16 @@
     }
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
     [self addGestureRecognizer:pan];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bringToFront) name:UIKeyboardWillShowNotification object:nil];
 }
 
--(void)bringToFront {
+-(void)keyboardShow {
     NSArray *windows = [[UIApplication sharedApplication] windows];
     UIWindow *lastWindow = (UIWindow *)[windows lastObject];
     self.windowLevel = lastWindow.windowLevel + 1;
+}
+
+-(void)keyboardHide {
+    self.windowLevel = self.windowLevel - 1;
 }
 /**
  *  窗体拖动事件
