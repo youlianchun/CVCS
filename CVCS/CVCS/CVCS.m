@@ -94,10 +94,6 @@ static NSMutableArray<CVCS*>*CVCSArray;// CVCS 控制对象器持用数组
     [but setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [but addTarget:self action:@selector(testButInAction) forControlEvents:UIControlEventTouchUpInside];
     [fWin addSubview:but];
-    dispatch_async(dispatch_queue_create("", NULL), ^{
-        [NSThread sleepForTimeInterval:3];
-        [fWin removeFromApplication];
-    });
 }
 
 /**
